@@ -1,7 +1,7 @@
 package net.example.foursquareapitest.venuessearch;
 
 import net.example.foursquareapitest.model.FoursquareApi;
-import net.example.foursquareapitest.model.entities.VenueList;
+import net.example.foursquareapitest.model.entities.VenuesResponse;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,12 +50,12 @@ public class VenuesSearchPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                new Action1<VenueList>() {
+                new Action1<VenuesResponse>() {
                     @Override
-                    public void call(VenueList venueList) {
+                    public void call(VenuesResponse response) {
                         if (view != null) {
                             view.hideLoading();
-                            view.showSearchResults(venueList);
+                            view.showSearchResults(response.getVenues());
                         }
                     }
                 },

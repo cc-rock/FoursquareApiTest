@@ -60,7 +60,7 @@ public class VenuesSearchAdapter extends RecyclerView.Adapter<VenuesSearchAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
     public class VenueViewHolder extends RecyclerView.ViewHolder {
