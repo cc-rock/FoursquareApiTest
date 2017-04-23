@@ -3,6 +3,8 @@ package net.example.foursquareapitest.venuessearch;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
 import net.example.foursquareapitest.BaseApplication;
@@ -19,12 +21,15 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
     @BindView(R.id.venues_search_view)
     SearchView searchView;
 
-    
+    @BindView(R.id.venues_search_results)
+    RecyclerView searchResults;
 
     @Inject
     VenuesSearchPresenter presenter;
 
     VenuesSearchAdapter adapter;
+
+    private DialogFragment loadingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venues_search);
         ButterKnife.bind(this);
+        presenter.setView(this);
         presenter.initialise(null);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -47,13 +53,17 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
                 return false;
             }
         });
+
+        searchResults.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        adapter = new VenuesSearchAdapter();
+        searchResults.setAdapter(adapter);
     }
 
     @Override
     public void showLoading() {
-        DialogFragment newFragment = VenuesSearchDialogFragment.newInstance(
+        loadingFragment = VenuesSearchDialogFragment.newInstance(
                 R.string.loading, 0, false);
-        newFragment.show(getSupportFragmentManager(), "dialog");
+        loadingFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     @Override
@@ -72,6 +82,13 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
 
     @Override
     public void showSearchResults(VenueList venueList) {
+        adapter.setItems(venueList.getVenues());
+    }
 
+    @Override
+    public void hideLoading() {
+        if (loadingFragment != null) {
+            loadingFragment.dismiss();
+        }
     }
 }

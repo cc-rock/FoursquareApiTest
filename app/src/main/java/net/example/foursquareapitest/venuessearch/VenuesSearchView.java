@@ -16,4 +16,5 @@ public interface VenuesSearchView {
 
     void showSearchResults(VenueList venueList);
 
+    void hideLoading();
 }
