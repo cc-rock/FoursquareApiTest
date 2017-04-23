@@ -1,10 +1,8 @@
 package net.example.foursquareapitest.venuessearch;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import net.example.foursquareapitest.BaseApplication;
 import net.example.foursquareapitest.DaggerMockComponentSetter;
 import net.example.foursquareapitest.R;
 import net.example.foursquareapitest.common.dagger.AppComponent;
@@ -19,6 +17,8 @@ import org.mockito.Mock;
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -55,5 +55,11 @@ public class VenuesSearchActivityTest {
         onView(withId(R.id.venues_search_results)).check(matches(isDisplayed()));
     }
 
-
+    @Test
+    public void submittingSearchQueryCallsPresenter() throws InterruptedException {
+        activityRule.launchActivity(null);
+        onView(withId(R.id.venues_search_view)).perform(click());
+        onView(withId(R.id.search_src_text)).perform(typeText("something"));
+        Thread.sleep(5000);
+    }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FoursquareApiTest</string>
+    <string name="venues_search">Search for Venues</string>
 </resources>

@@ -8,4 +8,7 @@ A test of integration of foursquare search api in an Android app
 
 Improvements / To-Do:
 
-* Use the new dagger android integration and activity scoped subcomponents 
+* Use the new dagger android integration and activity scoped subcomponents
+* Put searchView inside action bar 
+* searchView suggestion
+
