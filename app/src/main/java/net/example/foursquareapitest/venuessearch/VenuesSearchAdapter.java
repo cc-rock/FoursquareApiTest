@@ -41,19 +41,21 @@ public class VenuesSearchAdapter extends RecyclerView.Adapter<VenuesSearchAdapte
         Venue venue = items.get(position);
         Resources res = holder.itemView.getResources();
         holder.name.setText(venue.getName());
-        holder.address.setText(
-                res.getString(
-                        R.string.venue_address,
-                        venue.getLocation().getAddress(),
-                        venue.getLocation().getPostalCode(),
-                        venue.getLocation().getCity()
-                )
-        );
+        String address = res.getString(R.string.venue_address_not_available);
+        if (venue.getLocation().getAddress() != null) {
+            address = res.getString(
+                    R.string.venue_address,
+                    venue.getLocation().getAddress(),
+                    venue.getLocation().getPostalCode(),
+                    venue.getLocation().getCity()
+            );
+        }
+        holder.address.setText(address);
         holder.checkinsAndRating.setText(
                 res.getString(
                         R.string.venue_checkins_rating,
-                        venue.getStats().getCheckinsCount(),
-                        venue.getRating()
+                        String.valueOf(venue.getStats().getCheckinsCount()),
+                        venue.getRating() != 0 ? String.valueOf(venue.getRating()) : "n/a"
                 )
         );
     }

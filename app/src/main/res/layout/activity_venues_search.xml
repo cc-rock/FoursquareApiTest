@@ -9,9 +9,9 @@
 
     <android.support.v7.widget.SearchView
         android:id="@+id/venues_search_view"
-        android:iconifiedByDefault="false"
-        android:queryHint="@string/enter_place_name"
-        android:layout_width="wrap_content"
+        app:iconifiedByDefault="false"
+        app:queryHint="@string/enter_place_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/venues_search_results"
         app:layout_constraintLeft_toLeftOf="parent"
