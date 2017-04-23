@@ -5,6 +5,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import net.example.foursquareapitest.BaseApplication;
+import net.example.foursquareapitest.DaggerMockComponentSetter;
+import net.example.foursquareapitest.R;
 import net.example.foursquareapitest.common.dagger.AppComponent;
 import net.example.foursquareapitest.common.dagger.AppModule;
 
@@ -16,6 +18,10 @@ import org.mockito.Mock;
 
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -27,12 +33,7 @@ public class VenuesSearchActivityTest {
 
     @Rule
     public DaggerMockRule<AppComponent> daggerRule = new DaggerMockRule<>(AppComponent.class, new AppModule())
-            .set(new DaggerMockRule.ComponentSetter<AppComponent>() {
-                @Override public void setComponent(AppComponent component) {
-                    BaseApplication app = (BaseApplication) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
-                    app.setAppComponentForTests(component);
-                }
-            });
+            .set(new DaggerMockComponentSetter());
 
     @Rule
     public ActivityTestRule<VenuesSearchActivity> activityRule = new ActivityTestRule<>(VenuesSearchActivity.class, false, false);
@@ -46,4 +47,13 @@ public class VenuesSearchActivityTest {
         Assert.assertSame(mockPresenter, activityRule.getActivity().presenter);
         verify(mockPresenter, times(1)).initialise(null);
     }
+
+    @Test
+    public void initialViewsAreShown() {
+        activityRule.launchActivity(null);
+        onView(withId(R.id.venues_search_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.venues_search_results)).check(matches(isDisplayed()));
+    }
+
+
 }
