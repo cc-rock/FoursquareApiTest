@@ -7,4 +7,6 @@
     <string name="error">Error</string>
     <string name="empty_search_String">The search query cannot be empty</string>
     <string name="search_error">An error has occurred during the search</string>
+    <string name="venue_address">%1$s, %2$s %3$s</string>
+    <string name="venue_checkins_rating">Check ins: %1$d, rating: %2$d</string>
 </resources>

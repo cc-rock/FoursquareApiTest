@@ -19,8 +19,12 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
     @BindView(R.id.venues_search_view)
     SearchView searchView;
 
+    
+
     @Inject
     VenuesSearchPresenter presenter;
+
+    VenuesSearchAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
