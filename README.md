@@ -8,9 +8,6 @@ A test of integration of foursquare search api in an Android app
 
 Missing for lack of time:
 * Presenter unit tests (I would have liked to do TDD here as well)
-* View attach / detach from presenter in onStart / onStop (ESSENTIAL)
-* Saving the current searchQuery and redoing it if the activity is stopped and restarted
-* Handling screen rotation without losing the active network call
 * Polish the UI (especially the SearchView)
 
 Improvements / To-Do:
@@ -19,4 +16,5 @@ Improvements / To-Do:
 * Put searchView inside action bar 
 * Add a "Show on map" link to each search result, that opens another activity
   with a Google Maps view that shows all the results, with a balloon view on the clicked one.
+* Handling screen rotation without losing the active network call 
 
