@@ -1,5 +1,6 @@
 package net.example.foursquareapitest.venuessearch;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -32,6 +33,7 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
                 presenter.searchRequested(query);
                 return true;
             }
@@ -45,17 +47,23 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
 
     @Override
     public void showLoading() {
-
+        DialogFragment newFragment = VenuesSearchDialogFragment.newInstance(
+                R.string.loading, 0, false);
+        newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     @Override
     public void showEmptySearchStringError() {
-
+        DialogFragment newFragment = VenuesSearchDialogFragment.newInstance(
+                R.string.error, R.string.empty_search_String, true);
+        newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     @Override
     public void showSearchError() {
-
+        DialogFragment newFragment = VenuesSearchDialogFragment.newInstance(
+                R.string.error, R.string.search_error, true);
+        newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     @Override

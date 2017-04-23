@@ -2,4 +2,9 @@
     <string name="app_name">FoursquareApiTest</string>
     <string name="venues_search">Search for Venues</string>
     <string name="enter_place_name">Enter a place</string>
+    <string name="alert_dialog_ok">Ok</string>
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="empty_search_String">The search query cannot be empty</string>
+    <string name="search_error">An error has occurred during the search</string>
 </resources>

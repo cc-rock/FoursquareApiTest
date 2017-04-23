@@ -22,9 +22,11 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -65,5 +67,30 @@ public class VenuesSearchActivityTest {
         onView(isAssignableFrom(SearchView.SearchAutoComplete.class)).perform(typeText("test query"));
         onView(isAssignableFrom(SearchView.SearchAutoComplete.class)).perform(pressImeActionButton());
         verify(mockPresenter, times(1)).searchRequested("test query");
+    }
+
+    @Test
+    public void callingShowLoadingShowsLoadingDialog() {
+        activityRule.launchActivity(null);
+        activityRule.getActivity().showLoading();
+        onView(withText(R.string.loading)).inRoot(isDialog()).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void callingShowErrorEmptyQueryShowsCorrectError() {
+        activityRule.launchActivity(null);
+        activityRule.getActivity().showEmptySearchStringError();
+        onView(withText(R.string.error)).inRoot(isDialog()).check(matches(isDisplayed()));
+        onView(withText(R.string.empty_search_String)).inRoot(isDialog()).check(matches(isDisplayed()));
+        onView(withText(R.string.alert_dialog_ok)).inRoot(isDialog()).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void callingShowErrorDuringSearchShowsCorrectError() {
+        activityRule.launchActivity(null);
+        activityRule.getActivity().showSearchError();
+        onView(withText(R.string.error)).inRoot(isDialog()).check(matches(isDisplayed()));
+        onView(withText(R.string.search_error)).inRoot(isDialog()).check(matches(isDisplayed()));
+        onView(withText(R.string.alert_dialog_ok)).inRoot(isDialog()).check(matches(isDisplayed()));
     }
 }
