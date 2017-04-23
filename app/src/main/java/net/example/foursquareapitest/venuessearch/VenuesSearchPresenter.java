@@ -5,4 +5,12 @@ package net.example.foursquareapitest.venuessearch;
  */
 
 public class VenuesSearchPresenter {
+
+    private String searchQuery;
+
+    public void initialise(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
+
 }

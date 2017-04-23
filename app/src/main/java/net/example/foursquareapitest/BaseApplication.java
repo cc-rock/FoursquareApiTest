@@ -27,4 +27,8 @@ public class BaseApplication extends Application {
         return appComponent;
     }
 
+    public void setAppComponentForTests(AppComponent appComponent) {
+        this.appComponent = appComponent;
+    }
+
 }

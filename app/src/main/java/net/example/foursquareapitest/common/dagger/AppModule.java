@@ -12,7 +12,7 @@ import dagger.Provides;
 public class AppModule {
 
     @Provides
-    VenuesSearchPresenter provideVenuesSearchPresenter() {
+    public VenuesSearchPresenter provideVenuesSearchPresenter() {
         return new VenuesSearchPresenter();
     }
 

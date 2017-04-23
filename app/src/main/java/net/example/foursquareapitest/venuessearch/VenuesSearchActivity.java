@@ -18,5 +18,7 @@ public class VenuesSearchActivity extends AppCompatActivity {
         ((BaseApplication)getApplication()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venues_search);
+
+        presenter.initialise(null);
     }
 }
