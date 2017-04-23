@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 
 import net.example.foursquareapitest.BaseApplication;
 import net.example.foursquareapitest.R;
@@ -37,8 +38,7 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venues_search);
         ButterKnife.bind(this);
-        presenter.setView(this);
-        presenter.initialise(null);
+        presenter.initialise();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -57,6 +57,30 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
         searchResults.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new VenuesSearchAdapter();
         searchResults.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String currentQuery = searchView.getQuery() != null ? searchView.getQuery().toString() : "";
+        // this method is called only if this activity is being restored after being destroyed by the system
+        // (for example during screen rotation or low system resources)
+        // so if there is a query in the text field, redo the search to show the results again
+        if (!TextUtils.isEmpty(currentQuery)) {
+            presenter.searchRequested(currentQuery);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.bindView(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.unbindView();
     }
 
     @Override

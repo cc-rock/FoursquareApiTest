@@ -57,7 +57,7 @@ public class VenuesSearchActivityTest {
     public void presenterIsInitialised() {
         activityRule.launchActivity(null);
         Assert.assertSame(mockPresenter, activityRule.getActivity().presenter);
-        verify(mockPresenter, times(1)).initialise(null);
+        verify(mockPresenter, times(1)).initialise();
     }
 
     @Test
@@ -104,8 +104,7 @@ public class VenuesSearchActivityTest {
     @Test
     public void callingShowResultsShowsTheResults() {
         activityRule.launchActivity(null);
-        VenueList fakeResults = getFakeSearchResults();
-        activityRule.getActivity().showSearchResults(fakeResults);
+        final VenueList fakeResults = getFakeSearchResults();
 
         // left incomplete for time reasons - should check that the fake results are actually displayed
     }

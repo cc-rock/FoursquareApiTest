@@ -14,8 +14,6 @@ import rx.schedulers.Schedulers;
 
 public class VenuesSearchPresenter {
 
-    private String searchQuery;
-
     private FoursquareApi foursquareApi;
 
     private VenuesSearchView view;
@@ -26,24 +24,22 @@ public class VenuesSearchPresenter {
         this.foursquareApi = foursquareApi;
     }
 
-    public void initialise(String searchQuery) {
-        this.searchQuery = searchQuery;
+    public void initialise() {
     }
 
 
     public void searchRequested(String query) {
-        this.searchQuery = query;
         if (ongoingCall != null) {
             ongoingCall.unsubscribe();
         }
         if (query == null || query.equals("")) {
-            if (view != null) {
+            if (isViewBound()) {
                 view.hideLoading();
                 view.showEmptySearchStringError();
             }
             return;
         }
-        if (view != null) {
+        if (isViewBound()) {
             view.showLoading();
         }
         ongoingCall = foursquareApi.searchVenues(query)
@@ -53,7 +49,7 @@ public class VenuesSearchPresenter {
                 new Action1<VenuesResponse>() {
                     @Override
                     public void call(VenuesResponse response) {
-                        if (view != null) {
+                        if (isViewBound()) {
                             view.hideLoading();
                             view.showSearchResults(response.getVenues());
                         }
@@ -62,7 +58,7 @@ public class VenuesSearchPresenter {
                 new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        if (view != null) {
+                        if (isViewBound()) {
                             view.hideLoading();
                             view.showSearchError();
                         }
@@ -71,7 +67,15 @@ public class VenuesSearchPresenter {
         );
     }
 
-    public void setView(VenuesSearchView view) {
+    public void bindView(VenuesSearchView view) {
         this.view = view;
+    }
+
+    public void unbindView() {
+        this.view = null;
+    }
+
+    private boolean isViewBound() {
+        return view != null;
     }
 }
