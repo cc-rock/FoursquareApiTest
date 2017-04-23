@@ -13,4 +13,7 @@ public class VenuesSearchPresenter {
     }
 
 
+    public void searchRequested(String query) {
+        this.searchQuery = query;
+    }
 }

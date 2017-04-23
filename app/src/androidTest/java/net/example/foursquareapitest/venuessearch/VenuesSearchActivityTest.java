@@ -2,6 +2,7 @@ package net.example.foursquareapitest.venuessearch;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.SearchView;
 
 import net.example.foursquareapitest.DaggerMockComponentSetter;
 import net.example.foursquareapitest.R;
@@ -18,8 +19,10 @@ import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.mockito.Mockito.times;
@@ -56,10 +59,11 @@ public class VenuesSearchActivityTest {
     }
 
     @Test
-    public void submittingSearchQueryCallsPresenter() throws InterruptedException {
+    public void submittingSearchQueryCallsPresenter() {
         activityRule.launchActivity(null);
         onView(withId(R.id.venues_search_view)).perform(click());
-        onView(withId(R.id.search_src_text)).perform(typeText("something"));
-        Thread.sleep(5000);
+        onView(isAssignableFrom(SearchView.SearchAutoComplete.class)).perform(typeText("test query"));
+        onView(isAssignableFrom(SearchView.SearchAutoComplete.class)).perform(pressImeActionButton());
+        verify(mockPresenter, times(1)).searchRequested("test query");
     }
 }
