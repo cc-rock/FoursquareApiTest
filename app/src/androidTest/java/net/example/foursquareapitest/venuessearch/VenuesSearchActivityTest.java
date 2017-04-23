@@ -18,6 +18,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -104,9 +107,21 @@ public class VenuesSearchActivityTest {
     @Test
     public void callingShowResultsShowsTheResults() {
         activityRule.launchActivity(null);
+        onView(isAssignableFrom(SearchView.SearchAutoComplete.class)).perform(closeSoftKeyboard());
         final VenueList fakeResults = getFakeSearchResults();
+        activityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activityRule.getActivity().showSearchResults(fakeResults);
+            }
+        });
+        for(Venue venue : fakeResults.getVenues()) {
+            checkVenueIsDisplayed(venue);
+        }
+    }
 
-        // left incomplete for time reasons - should check that the fake results are actually displayed
+    private void checkVenueIsDisplayed(Venue venue) {
+        onView(withText(venue.getName())).check(matches(isDisplayed()));
     }
 
     private VenueList getFakeSearchResults() {
@@ -114,8 +129,6 @@ public class VenuesSearchActivityTest {
         venues.add(createVenue("1", "Test Venue 1", "test avenue", "London", "NW1 2HT", 10, 2 ));
         venues.add(createVenue("2", "Test Venue 2", "test street", "London", "NW1 3FR", 200, 5 ));
         venues.add(createVenue("3", "Test Venue 3", "test grove", "London", "SE3 2HT", 450, 8 ));
-        venues.add(createVenue("4", "Test Venue 4", "test close", "London", "SW3 2PT", 7, 10 ));
-        venues.add(createVenue("5", "Test Venue 5", "test square", "London", "NW1 2HT", 20, 0 ));
         return new VenueList(venues);
     }
 
