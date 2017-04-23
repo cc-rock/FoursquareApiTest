@@ -3,6 +3,7 @@ package net.example.foursquareapitest.venuessearch;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -55,6 +56,9 @@ public class VenuesSearchActivity extends AppCompatActivity implements VenuesSea
         });
 
         searchResults.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL);
+        searchResults.addItemDecoration(dividerItemDecoration);
         adapter = new VenuesSearchAdapter();
         searchResults.setAdapter(adapter);
     }
